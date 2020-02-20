@@ -155,7 +155,6 @@ def handle_input():
         if command == "student":
             github = args[0]
             get_student_by_github(github)
-
         elif command == "new_student":
             first_name, last_name, github = args  # unpack!
             make_new_student(first_name, last_name, github)
@@ -171,6 +170,27 @@ def handle_input():
         elif command == "get_all_grades_for_student":
             github = args[0]
             get_all_grades_for_student(github)
+        elif command == "add_project":
+            title_string = [args[0]]
+            index = 0
+            for index in range(1, len(args)):
+                title_string.append(args[index])
+                if args[index].find('"') > -1:
+                    break
+            title = " ".join(title_string)
+
+            description_string = []
+            j_double = 0
+            for j in range(index+1, len(args)):
+                description_string.append(args[j])
+                if args[j].find('"') > -1:
+                    j_double += 1
+                    if j_double == 2:
+                        break
+
+            description = " ".join(description_string)
+            print(title)
+            print(description)
         else:
             if command != "quit":
                 print("Invalid Entry. Try again.")
