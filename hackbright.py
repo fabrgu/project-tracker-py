@@ -171,26 +171,31 @@ def handle_input():
             github = args[0]
             get_all_grades_for_student(github)
         elif command == "add_project":
-            title_string = [args[0]]
             index = 0
+            title_string = [args[index].replace('"', '')]
             for index in range(1, len(args)):
-                title_string.append(args[index])
                 if args[index].find('"') > -1:
+                    title_string.append(args[index].replace('"', ''))
                     break
+                else:
+                    title_string.append(args[index])
             title = " ".join(title_string)
 
             description_string = []
             j_double = 0
             for j in range(index+1, len(args)):
-                description_string.append(args[j])
+                index += 1
                 if args[j].find('"') > -1:
                     j_double += 1
+                    description_string.append(args[j].replace('"', ''))
                     if j_double == 2:
                         break
+                else:
+                    description_string.append(args[j])
 
             description = " ".join(description_string)
-            print(title)
-            print(description)
+            max_grade = args[index+1]
+            add_project(title, description, max_grade)
         else:
             if command != "quit":
                 print("Invalid Entry. Try again.")
